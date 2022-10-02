@@ -155,6 +155,7 @@ mod stable_writer_tests {
 
     fn build_writer(memory: TestStableMemory, buffer_size: Option<usize>) -> Box<dyn Write> {
         let writer = StableWriter::with_memory(memory, 0);
+        assert_eq!(writer.offset(), 0);
         if let Some(buffer_size) = buffer_size {
             Box::new(BufferedStableWriter::with_writer(buffer_size, writer))
         } else {
@@ -187,6 +188,7 @@ mod stable_reader_tests {
 
     fn build_reader(memory: TestStableMemory, buffer_size: Option<usize>) -> Box<dyn Read> {
         let reader = StableReader::with_memory(memory, 0);
+        assert_eq!(reader.offset(), 0);
         if let Some(buffer_size) = buffer_size {
             Box::new(BufferedStableReader::with_reader(buffer_size, reader))
         } else {

@@ -165,6 +165,11 @@ impl<M: StableMemory> StableWriter<M> {
         }
     }
 
+    /// Returns the offset of the writer
+    pub fn offset(&self) -> usize {
+        self.offset
+    }
+
     /// Attempts to grow the memory by adding new pages.
     pub fn grow(&mut self, new_pages: u32) -> Result<(), StableMemoryError> {
         let old_page_count = self.memory.stable_grow(new_pages)?;
@@ -222,6 +227,11 @@ impl BufferedStableWriter {
     pub fn new(buffer_size: usize) -> BufferedStableWriter {
         BufferedStableWriter::with_writer(buffer_size, StableWriter::default())
     }
+
+    /// Returns the offset of the writer
+    pub fn offset(&self) -> usize {
+        self.inner.get_ref().offset()
+    }
 }
 
 impl<M: StableMemory> BufferedStableWriter<M> {
@@ -273,6 +283,11 @@ impl<M: StableMemory> StableReader<M> {
             capacity,
             memory,
         }
+    }
+
+    /// Returns the offset of the reader
+    pub fn offset(&self) -> usize {
+        self.offset
     }
 
     /// Reads data from the stable memory location specified by an offset.
